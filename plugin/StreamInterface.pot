@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-14 23:01+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: plugin.py:34
+msgid "Cancel"
+msgstr ""
+
+#: plugin.py:83
+msgid ""
+"Create file any name.m3u --> write text 'http://your-ip-box:port/<current> "
+"or standby <current?tv|current?radio>'"
+msgstr ""
+
+#: plugin.py:68
+msgid "Http port"
+msgstr ""
+
+#: plugin.py:82
+msgid "Open browser --> set url 'http://your-ip-box:port'"
+msgstr ""
+
+#: plugin.py:35
+msgid "Save/OK"
+msgstr ""
+
+#: plugin.py:236
+msgid "Set port and type streaming"
+msgstr ""
+
+#: plugin.py:32 plugin.py:235
+msgid "Setup StreamInterface"
+msgstr ""
+
+#: plugin.py:67
+msgid "StreamInterface enabled"
+msgstr ""
+
+#: plugin.py:69
+msgid "Type stream for services"
+msgstr ""
+
+#: plugin.py:17
+msgid "both"
+msgstr ""
+
+#: plugin.py:17
+msgid "bouquets/services lists"
+msgstr ""
+
+#: plugin.py:17
+msgid "current service"
+msgstr ""
