@@ -19,8 +19,8 @@ config.plugins.streaminterface.services = ConfigSelection([("0", _("both")),("1"
 class StreamSetupScreen(Screen, ConfigListScreen):
 	skin = """
 		<screen name="StreamSetupScreen" position="center,center" size="500,235" title="Setup StreamInterface">
-			<ePixmap pixmap="skin_default/buttons/red.png" position="10,0" size="140,40" alphatest="on" />
-			<ePixmap pixmap="skin_default/buttons/green.png" position="160,0" size="140,40" alphatest="on" />
+			<ePixmap pixmap="buttons/red.png" position="10,0" size="140,40" alphatest="on" />
+			<ePixmap pixmap="buttons/green.png" position="160,0" size="140,40" alphatest="on" />
 			<widget name="red" position="10,0" size="140,40" valign="center" halign="center" zPosition="4" foregroundColor="white" font="Regular;17" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 			<widget name="green" position="160,0" size="140,40" valign="center" halign="center" zPosition="4" foregroundColor="white" font="Regular;17" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 			<widget name="config" position="10,50" size="480,80" scrollbarMode="showOnDemand"/>
