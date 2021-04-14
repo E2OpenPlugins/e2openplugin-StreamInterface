@@ -16,6 +16,7 @@ config.plugins.streaminterface.enabled = ConfigYesNo(True)
 config.plugins.streaminterface.port = ConfigInteger(default=40080, limits=(1, 65535))
 config.plugins.streaminterface.services = ConfigSelection([("0", _("both")), ("1", _("bouquets/services lists")), ("2", _("current service"))], default="0")
 
+
 class StreamSetupScreen(Screen, ConfigListScreen):
 	skin = """
 		<screen name="StreamSetupScreen" position="center,center" size="500,235" title="Setup StreamInterface">
@@ -27,6 +28,7 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 			<widget name="help" position="10,130" size="480,105" zPosition="4" valign="center" halign="center" foregroundColor="yellow" font="Regular;18" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		</screen>
 		""" 
+
 	def __init__(self, session):
 		self.skin = StreamSetupScreen.skin
 		self.setup_title = _("Setup StreamInterface")
@@ -117,8 +119,10 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 		self.STR.save()
 		self.close()
 
+
 class BouquetList(resource.Resource):
 	addSlash = True
+
 	def __init__(self):
 		resource.Resource.__init__(self)
 
@@ -141,11 +145,14 @@ class BouquetList(resource.Resource):
 			req.setResponseCode(200)
 			req.setHeader('Content-type', 'text/html')
 			return s
+
 	def locateChild(self, request, segments):
 		return resource.Resource.locateChild(self, request, segments)
 
+
 class ChannelList(resource.Resource):
 	addSlash = True
+
 	def __init__(self):
 		resource.Resource.__init__(self)
 
@@ -179,8 +186,10 @@ class ChannelList(resource.Resource):
 			req.setResponseCode(200)
 			return "no ref"
 
+
 class CurrentService(resource.Resource):
 	addSlash = True
+
 	def __init__(self, session):
 		resource.Resource.__init__(self)
 		self.session = session
@@ -195,6 +204,7 @@ class CurrentService(resource.Resource):
 		req.redirect("http://%s:8001/%s" % (req.getHost().host, sref))
 		req.finish()
 		return server.NOT_DONE_YET
+
 
 def startServer(session):
 	setup = config.plugins.streaminterface
@@ -219,8 +229,10 @@ def startServer(session):
 			res.putChild("current", current) 
 		reactor.listenTCP(setup.port.value, server.Site(res))
 
+
 def main(session, **kwargs):
 	session.open(StreamSetupScreen)
+
 
 def autostart(reason, **kwargs):
 	if reason == 0 and "session" in kwargs:
@@ -228,6 +240,7 @@ def autostart(reason, **kwargs):
 			startServer(kwargs["session"])
 		except ImportError, e:
 			print "[WebIf] twisted not available, not starting web services", e
+
 
 def Plugins(**kwargs):
  	return [
