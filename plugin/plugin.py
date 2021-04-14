@@ -128,7 +128,7 @@ class BouquetList(resource.Resource):
 			bouquet_rootstr = '1:7:1:0:0:0:0:0:0:0:FROM BOUQUET "bouquets.tv" ORDER BY bouquet'
 		else:
 			from Screens.ChannelSelection import service_types_tv
-			bouquet_rootstr = '%s FROM BOUQUET "userbouquet.favourites.tv" ORDER BY bouquet'%(service_types_tv)
+			bouquet_rootstr = '%s FROM BOUQUET "userbouquet.favourites.tv" ORDER BY bouquet' % (service_types_tv)
 		fav = eServiceReference(bouquet_rootstr)
 		services = ServiceList(fav, command_func=None, validate_commands=False)
 		sub = services.getServicesAsList()
@@ -171,7 +171,7 @@ class ChannelList(resource.Resource):
 			if len(sub) > 0:
 				for (ref, name) in sub:
 					s = s + '<p>'
-					s = s + '<a href="http://%s:8001/%s" vod>%s</a>'%(req.host.host,ref,name)
+					s = s + '<a href="http://%s:8001/%s" vod>%s</a>' % (req.host.host,ref,name)
 				req.setResponseCode(200)
 				req.setHeader('Content-type', 'text/html')
 				return s
@@ -191,7 +191,7 @@ class CurrentService(resource.Resource):
 			sref = currentService.toString()
 		else:
 			mode = "?radio" in req.uri.lower() and 'radio' or 'tv'
-			sref = eval('config.%s.lastservice'%mode).value or "N/A"
+			sref = eval('config.%s.lastservice' % mode).value or "N/A"
 		req.redirect("http://%s:8001/%s" % (req.getHost().host, sref))
 		req.finish()
 		return server.NOT_DONE_YET
