@@ -139,8 +139,8 @@ class BouquetList(resource.Resource):
 				ref = ref.replace(' ', '%20').replace(':', '%3A').replace('"', '%22')
 				s = s + '<a href="/channel?ref=' + ref + '">' + name + '</a>'
 			req.setResponseCode(200)
-			req.setHeader('Content-type', 'text/html');
-			return s;
+			req.setHeader('Content-type', 'text/html')
+			return s
 	def locateChild(self, request, segments):
 		return resource.Resource.locateChild(self, request, segments)
 
@@ -158,7 +158,7 @@ class ChannelList(resource.Resource):
 					w3 = i.split("=")
 					parts[w3[0]] = w3[1]
 		except:
-			req.setResponseCode(200);
+			req.setResponseCode(200)
 			return "no ref given with ref=???"
 
 		if parts.has_key("ref"):
@@ -172,12 +172,12 @@ class ChannelList(resource.Resource):
 				for (ref, name) in sub:
 					s = s + '<p>'
 					s = s + '<a href="http://%s:8001/%s" vod>%s</a>'%(req.host.host,ref,name)
-				req.setResponseCode(200);
-				req.setHeader('Content-type', 'text/html');
-				return s;
+				req.setResponseCode(200)
+				req.setHeader('Content-type', 'text/html')
+				return s
 		else:
-			req.setResponseCode(200);
-			return "no ref";
+			req.setResponseCode(200)
+			return "no ref"
 
 class CurrentService(resource.Resource):
 	addSlash = True
