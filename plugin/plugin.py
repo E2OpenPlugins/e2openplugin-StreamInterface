@@ -13,7 +13,7 @@ from enigma import eServiceReference
 
 config.plugins.streaminterface = ConfigSubsection()
 config.plugins.streaminterface.enabled = ConfigYesNo(True)
-config.plugins.streaminterface.port = ConfigInteger(default = 40080, limits=(1, 65535))
+config.plugins.streaminterface.port = ConfigInteger(default=40080, limits=(1, 65535))
 config.plugins.streaminterface.services = ConfigSelection([("0", _("both")),("1", _("bouquets/services lists")),("2", _("current service"))], default="0")
 
 class StreamSetupScreen(Screen, ConfigListScreen):
@@ -130,7 +130,7 @@ class BouquetList(resource.Resource):
 			from Screens.ChannelSelection import service_types_tv
 			bouquet_rootstr = '%s FROM BOUQUET "userbouquet.favourites.tv" ORDER BY bouquet'%(service_types_tv)
 		fav = eServiceReference(bouquet_rootstr)
-		services = ServiceList(fav, command_func = None, validate_commands = False)
+		services = ServiceList(fav, command_func=None, validate_commands=False)
 		sub = services.getServicesAsList()
 		if len(sub) > 0:
 			self.putChild('channel', ChannelList())
@@ -166,7 +166,7 @@ class ChannelList(resource.Resource):
 			ref = parts['ref'].replace('%20', ' ').replace('%3A', ':').replace('%22', '"')
 			print ref
 			fav = eServiceReference(ref)
-			services = ServiceList(fav, command_func = None, validate_commands = False)
+			services = ServiceList(fav, command_func=None, validate_commands=False)
 			sub = services.getServicesAsList()
 			if len(sub) > 0:
 				for (ref, name) in sub:
@@ -234,9 +234,9 @@ def Plugins(**kwargs):
 		PluginDescriptor(
 			name=_("Setup StreamInterface"),
 			description=_("Set port and type streaming"),
-			where = PluginDescriptor.WHERE_PLUGINMENU,
+			where=PluginDescriptor.WHERE_PLUGINMENU,
 			icon="stream.png",
 			fnc=main),
 		PluginDescriptor(
-			where = [PluginDescriptor.WHERE_SESSIONSTART,PluginDescriptor.WHERE_AUTOSTART],
-			fnc = autostart)]
+			where=[PluginDescriptor.WHERE_SESSIONSTART,PluginDescriptor.WHERE_AUTOSTART],
+			fnc=autostart)]
