@@ -7,7 +7,7 @@ setup(name='enigma2-plugin-extensions-streaminterface',
        description='StreamInterface',
        package_dir={pkg: 'plugin'},
        packages=[pkg],
-       package_data={pkg: 
+       package_data={pkg:
            ['stream.png', 'locale/*/LC_MESSAGES/*.mo']},
        cmdclass=setup_translate.cmdclass, # for translation
       )

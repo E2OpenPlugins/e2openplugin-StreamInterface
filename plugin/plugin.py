@@ -1,7 +1,7 @@
 from . import _
 from Plugins.Plugin import PluginDescriptor
 from twisted.internet import reactor
-from twisted.web import resource, server 
+from twisted.web import resource, server
 from Screens.Screen import Screen
 from Components.Sources.ServiceList import ServiceList
 from Components.ConfigList import ConfigListScreen
@@ -27,7 +27,7 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 			<widget name="config" position="10,50" size="480,80" scrollbarMode="showOnDemand"/>
 			<widget name="help" position="10,130" size="480,105" zPosition="4" valign="center" halign="center" foregroundColor="yellow" font="Regular;18" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		</screen>
-		""" 
+		"""
 
 	def __init__(self, session):
 		self.skin = StreamSetupScreen.skin
@@ -36,13 +36,13 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 		self["red"] = Button(_("Cancel"))
 		self["green"] = Button(_("Save/OK"))
 		self["help"] = Label("")
-		self["actions"] = ActionMap(["SetupActions", "ColorActions"], 
+		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"ok": self.keyOk,
 			"save": self.keyGreen,
 			"cancel": self.keyRed,
 		}, -2)
-		
+
 		ConfigListScreen.__init__(self, [])
 		self.initConfig()
 		self.newConfig()
@@ -215,18 +215,18 @@ def startServer(session):
 			current = CurrentService(session)
 			res = resource.Resource()
 			res.putChild("", list)
-			res.putChild("channel", channels) 
-			res.putChild("current", current) 
+			res.putChild("channel", channels)
+			res.putChild("current", current)
 		elif setup.services.value == "1":
 			list = BouquetList()
 			channels = ChannelList()
 			res = resource.Resource()
 			res.putChild("", list)
-			res.putChild("channel", channels) 
+			res.putChild("channel", channels)
 		elif setup.services.value == "2":
 			current = CurrentService(session)
 			res = resource.Resource()
-			res.putChild("current", current) 
+			res.putChild("current", current)
 		reactor.listenTCP(setup.port.value, server.Site(res))
 
 
