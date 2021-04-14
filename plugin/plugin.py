@@ -14,7 +14,7 @@ from enigma import eServiceReference
 config.plugins.streaminterface = ConfigSubsection()
 config.plugins.streaminterface.enabled = ConfigYesNo(True)
 config.plugins.streaminterface.port = ConfigInteger(default=40080, limits=(1, 65535))
-config.plugins.streaminterface.services = ConfigSelection([("0", _("both")),("1", _("bouquets/services lists")),("2", _("current service"))], default="0")
+config.plugins.streaminterface.services = ConfigSelection([("0", _("both")), ("1", _("bouquets/services lists")), ("2", _("current service"))], default="0")
 
 class StreamSetupScreen(Screen, ConfigListScreen):
 	skin = """
@@ -56,7 +56,7 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 	def initConfig(self):
 		def getPrevValues(section):
 			res = {}
-			for (key,val) in section.content.items.items():
+			for (key, val) in section.content.items.items():
 				if isinstance(val, ConfigSubsection):
 					res[key] = getPrevValues(val)
 				else:
@@ -103,7 +103,7 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 
 	def keyRed(self):
 		def setPrevValues(section, values):
-			for (key,val) in section.content.items.items():
+			for (key, val) in section.content.items.items():
 				value = values.get(key, None)
 				if value is not None:
 					if isinstance(val, ConfigSubsection):
@@ -171,7 +171,7 @@ class ChannelList(resource.Resource):
 			if len(sub) > 0:
 				for (ref, name) in sub:
 					s = s + '<p>'
-					s = s + '<a href="http://%s:8001/%s" vod>%s</a>' % (req.host.host,ref,name)
+					s = s + '<a href="http://%s:8001/%s" vod>%s</a>' % (req.host.host, ref, name)
 				req.setResponseCode(200)
 				req.setHeader('Content-type', 'text/html')
 				return s
@@ -226,7 +226,7 @@ def autostart(reason, **kwargs):
 	if reason == 0 and "session" in kwargs:
 		try:
 			startServer(kwargs["session"])
-		except ImportError,e:
+		except ImportError, e:
 			print "[WebIf] twisted not available, not starting web services", e
 
 def Plugins(**kwargs):
@@ -238,5 +238,5 @@ def Plugins(**kwargs):
 			icon="stream.png",
 			fnc=main),
 		PluginDescriptor(
-			where=[PluginDescriptor.WHERE_SESSIONSTART,PluginDescriptor.WHERE_AUTOSTART],
+			where=[PluginDescriptor.WHERE_SESSIONSTART, PluginDescriptor.WHERE_AUTOSTART],
 			fnc=autostart)]
