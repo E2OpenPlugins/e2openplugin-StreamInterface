@@ -1,7 +1,7 @@
 from . import _
 from Plugins.Plugin import PluginDescriptor
 from twisted.internet import reactor
-from twisted.web import resource, server 
+from twisted.web import resource, server
 from Screens.Screen import Screen
 from Components.Sources.ServiceList import ServiceList
 from Components.ConfigList import ConfigListScreen
@@ -13,8 +13,9 @@ from enigma import eServiceReference
 
 config.plugins.streaminterface = ConfigSubsection()
 config.plugins.streaminterface.enabled = ConfigYesNo(True)
-config.plugins.streaminterface.port = ConfigInteger(default = 40080, limits=(1, 65535))
-config.plugins.streaminterface.services = ConfigSelection([("0", _("both")),("1", _("bouquets/services lists")),("2", _("current service"))], default="0")
+config.plugins.streaminterface.port = ConfigInteger(default=40080, limits=(1, 65535))
+config.plugins.streaminterface.services = ConfigSelection([("0", _("both")), ("1", _("bouquets/services lists")), ("2", _("current service"))], default="0")
+
 
 class StreamSetupScreen(Screen, ConfigListScreen):
 	skin = """
@@ -26,7 +27,8 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 			<widget name="config" position="10,50" size="480,80" scrollbarMode="showOnDemand"/>
 			<widget name="help" position="10,130" size="480,105" zPosition="4" valign="center" halign="center" foregroundColor="yellow" font="Regular;18" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		</screen>
-		""" 
+		"""
+
 	def __init__(self, session):
 		self.skin = StreamSetupScreen.skin
 		self.setup_title = _("Setup StreamInterface")
@@ -34,13 +36,13 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 		self["red"] = Button(_("Cancel"))
 		self["green"] = Button(_("Save/OK"))
 		self["help"] = Label("")
-		self["actions"] = ActionMap(["SetupActions", "ColorActions"], 
+		self["actions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"ok": self.keyOk,
 			"save": self.keyGreen,
 			"cancel": self.keyRed,
 		}, -2)
-		
+
 		ConfigListScreen.__init__(self, [])
 		self.initConfig()
 		self.newConfig()
@@ -55,8 +57,8 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 
 	def initConfig(self):
 		def getPrevValues(section):
-			res = { }
-			for (key,val) in section.content.items.items():
+			res = {}
+			for (key, val) in section.content.items.items():
 				if isinstance(val, ConfigSubsection):
 					res[key] = getPrevValues(val)
 				else:
@@ -103,7 +105,7 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 
 	def keyRed(self):
 		def setPrevValues(section, values):
-			for (key,val) in section.content.items.items():
+			for (key, val) in section.content.items.items():
 				value = values.get(key, None)
 				if value is not None:
 					if isinstance(val, ConfigSubsection):
@@ -117,8 +119,10 @@ class StreamSetupScreen(Screen, ConfigListScreen):
 		self.STR.save()
 		self.close()
 
+
 class BouquetList(resource.Resource):
 	addSlash = True
+
 	def __init__(self):
 		resource.Resource.__init__(self)
 
@@ -128,9 +132,9 @@ class BouquetList(resource.Resource):
 			bouquet_rootstr = '1:7:1:0:0:0:0:0:0:0:FROM BOUQUET "bouquets.tv" ORDER BY bouquet'
 		else:
 			from Screens.ChannelSelection import service_types_tv
-			bouquet_rootstr = '%s FROM BOUQUET "userbouquet.favourites.tv" ORDER BY bouquet'%(service_types_tv)
+			bouquet_rootstr = '%s FROM BOUQUET "userbouquet.favourites.tv" ORDER BY bouquet' % (service_types_tv)
 		fav = eServiceReference(bouquet_rootstr)
-		services = ServiceList(fav, command_func = None, validate_commands = False)
+		services = ServiceList(fav, command_func=None, validate_commands=False)
 		sub = services.getServicesAsList()
 		if len(sub) > 0:
 			self.putChild('channel', ChannelList())
@@ -139,13 +143,16 @@ class BouquetList(resource.Resource):
 				ref = ref.replace(' ', '%20').replace(':', '%3A').replace('"', '%22')
 				s = s + '<a href="/channel?ref=' + ref + '">' + name + '</a>'
 			req.setResponseCode(200)
-			req.setHeader('Content-type', 'text/html');
-			return s;
+			req.setHeader('Content-type', 'text/html')
+			return s
+
 	def locateChild(self, request, segments):
 		return resource.Resource.locateChild(self, request, segments)
 
+
 class ChannelList(resource.Resource):
 	addSlash = True
+
 	def __init__(self):
 		resource.Resource.__init__(self)
 
@@ -158,7 +165,7 @@ class ChannelList(resource.Resource):
 					w3 = i.split("=")
 					parts[w3[0]] = w3[1]
 		except:
-			req.setResponseCode(200);
+			req.setResponseCode(200)
 			return "no ref given with ref=???"
 
 		if parts.has_key("ref"):
@@ -166,21 +173,23 @@ class ChannelList(resource.Resource):
 			ref = parts['ref'].replace('%20', ' ').replace('%3A', ':').replace('%22', '"')
 			print ref
 			fav = eServiceReference(ref)
-			services = ServiceList(fav, command_func = None, validate_commands = False)
+			services = ServiceList(fav, command_func=None, validate_commands=False)
 			sub = services.getServicesAsList()
 			if len(sub) > 0:
 				for (ref, name) in sub:
 					s = s + '<p>'
-					s = s + '<a href="http://%s:8001/%s" vod>%s</a>'%(req.host.host,ref,name)
-				req.setResponseCode(200);
-				req.setHeader('Content-type', 'text/html');
-				return s;
+					s = s + '<a href="http://%s:8001/%s" vod>%s</a>' % (req.host.host, ref, name)
+				req.setResponseCode(200)
+				req.setHeader('Content-type', 'text/html')
+				return s
 		else:
-			req.setResponseCode(200);
-			return "no ref";
+			req.setResponseCode(200)
+			return "no ref"
+
 
 class CurrentService(resource.Resource):
 	addSlash = True
+
 	def __init__(self, session):
 		resource.Resource.__init__(self)
 		self.session = session
@@ -191,10 +200,11 @@ class CurrentService(resource.Resource):
 			sref = currentService.toString()
 		else:
 			mode = "?radio" in req.uri.lower() and 'radio' or 'tv'
-			sref = eval('config.%s.lastservice'%mode).value or "N/A"
+			sref = eval('config.%s.lastservice' % mode).value or "N/A"
 		req.redirect("http://%s:8001/%s" % (req.getHost().host, sref))
 		req.finish()
 		return server.NOT_DONE_YET
+
 
 def startServer(session):
 	setup = config.plugins.streaminterface
@@ -205,38 +215,41 @@ def startServer(session):
 			current = CurrentService(session)
 			res = resource.Resource()
 			res.putChild("", list)
-			res.putChild("channel", channels) 
-			res.putChild("current", current) 
+			res.putChild("channel", channels)
+			res.putChild("current", current)
 		elif setup.services.value == "1":
 			list = BouquetList()
 			channels = ChannelList()
 			res = resource.Resource()
 			res.putChild("", list)
-			res.putChild("channel", channels) 
+			res.putChild("channel", channels)
 		elif setup.services.value == "2":
 			current = CurrentService(session)
 			res = resource.Resource()
-			res.putChild("current", current) 
+			res.putChild("current", current)
 		reactor.listenTCP(setup.port.value, server.Site(res))
+
 
 def main(session, **kwargs):
 	session.open(StreamSetupScreen)
+
 
 def autostart(reason, **kwargs):
 	if reason == 0 and "session" in kwargs:
 		try:
 			startServer(kwargs["session"])
-		except ImportError,e:
+		except ImportError, e:
 			print "[WebIf] twisted not available, not starting web services", e
+
 
 def Plugins(**kwargs):
  	return [
 		PluginDescriptor(
 			name=_("Setup StreamInterface"),
 			description=_("Set port and type streaming"),
-			where = PluginDescriptor.WHERE_PLUGINMENU,
+			where=PluginDescriptor.WHERE_PLUGINMENU,
 			icon="stream.png",
 			fnc=main),
 		PluginDescriptor(
-			where = [PluginDescriptor.WHERE_SESSIONSTART,PluginDescriptor.WHERE_AUTOSTART],
-			fnc = autostart)]
+			where=[PluginDescriptor.WHERE_SESSIONSTART, PluginDescriptor.WHERE_AUTOSTART],
+			fnc=autostart)]
